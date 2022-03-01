@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<BLL.DTO.UserDTO>
+@inject UserManager<IdentityUser> _userManager;
+
+@{
+    Layout = "_Layout";
+}
+
+
+<div class="row m-2 p-1">
+    @if (Model != null)
+    {
+        @foreach (var user in Model)
+        {
+            <div class="card">
+                <div class="card-body">
+                    <a asp-controller="Messages" asp-action="Details" asp-route-id="@(user?.Id)">
+                        <h5 style="display: inline;">
+                            @(user?.FullName)(@(_userManager.Users.FirstOrDefault(e => e.Id.Equals(_userManager.GetUserId(User)))?.Email)
+                        </h5>
+                    </a>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <h1>Here is nothig. Try to write anything))</h1>
+    }
+</div>

@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<BLL.DTO.MessageDTO>
+
+@{
+    Layout = "_Layout";
+}
+
+@inject BLL.Services.IUserDataService _userService
+@inject UserManager<IdentityUser> _userManager;
+
+@if (Model != null)
+{
+    <div class="row m-1">
+        @foreach (var msg in Model)
+        {
+            <div class="card m-1 p-0">
+                <div class="card-header p-1 px-3">
+                    @(_userService.GetUserDataById(msg.Sender).Result.FullName)
+                    has wrote to
+                    @(_userService.GetUserDataById(msg.Recipient).Result.FullName)
+                    at @(msg?.Sended.ToString("g"))
+                </div>
+                <div class="card-body p-1">
+                    @(msg.MessageBody)
+                </div>
+            </div>
+        }
+        <form class="form my-3" method="post" data-ajax="true" data-ajax-method="post" data-ajax-complete="sent" data-ajax-url="/Messages/Send">
+            <input class="form-control" type="text" name="messageBody" placeholder="Enter your message here!"/>
+            <input type="hidden" name="sender" value="@(_userManager.GetUserId(User))"/>
+            <input type="hidden" name="recipient" value="@(ViewBag.Recipient)"/>
+            <button class="btn btn-success my-1" type="submit">
+                Send me!
+            </button>
+        </form>
+    </div>
+
+    <script>
+        function reloadOnSend(){
+            document.location.reload();
+            }
+        sent = function (xhr){
+            alert(`${xhr.responseText}`);
+            reloadOnSend();
+        }
+    </script>
+}
