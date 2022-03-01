@@ -1,0 +1,31 @@
+@using Microsoft.AspNetCore.Identity
+@model BLL.DTO.ProjectDTO
+@inject UserManager<IdentityUser> _userManager;
+
+<div class="row p-0">
+    <div class="col">
+        <form asp-action="AddProject" class="p-2">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ProjectOwner" value="@(_userManager.GetUserId(User))"/>
+
+            <div class="form-group  p-1">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control"/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group  p-1">
+                <label asp-for="ProjectStart" class="control-label"></label>
+                <input asp-for="ProjectStart" class="form-control" value="@(DateTime.Now.ToString("O"))"/>
+                <span asp-validation-for="ProjectStart" class="text-danger"></span>
+            </div>
+            <div class="form-group p-1">
+                <label asp-for="ProjectEnd" class="control-label"></label>
+                <input asp-for="ProjectEnd" class="form-control" value="@(DateTime.Now.AddDays(1).ToString("O"))"/>
+                <span asp-validation-for="ProjectEnd" class="text-danger"></span>
+            </div>
+            <div class="form-group p-1">
+                <input type="submit" value="Create" class="btn btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+@model BLL.DTO.ProjectDTO
+
+<div class="card p-2 m-0">
+    <h5 class="card-title">
+        Project: @(Model.Name)
+    </h5>
+    <div class="alert alert-primary m-1">
+        @(Model.ProjectStart.ToString("d")) - @(Model.ProjectEnd.ToString("d"))
+    </div>
+    <h6 class="card-title">
+        Tasks:
+    </h6>
+    <div class="card m-2 border-1">
+        <ul class="list-group list-group-flush">
+            @foreach (var e in Model.Tasks)
+            {
+                <li class="list-group-item">
+                    @(e?.TaskName) (@(e?.TaskStart.ToString("d"))&nbsp;-&nbsp;@(e?.TaskEnd.ToString("d"))))
+                </li>
+            }
+            <li class="list-group-item">
+                <a href="#" class="btn btn-success w-100" data-bs-toggle="modal"
+                   data-bs-target="#staticBackdrop"
+                   onclick="loadModal('/Projects/AddProjectTask/@(Model.Id)')">
+                    Add project task
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <h6 class="card-title">
+        Participants:
+    </h6>
+    <div class="card m-2 border-1">
+        <ul class="list-group list-group-flush">
+            @foreach (var e in Model.Participants)
+            {
+                <li class="list-group-item">
+                    @(e?.FullName)
+                </li>
+            }
+            <li class="list-group-item">
+                <a href="#" class="btn btn-success w-100" data-bs-toggle="modal"
+                   data-bs-target="#staticBackdrop"
+                   onclick="loadModal('/Projects/AddParticipantToProject/@(Model.Id)')">
+                    Add participant
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+@* <div> *@
+@*     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> | *@
+@*     <a asp-action="Index">Back to List</a> *@
+@* </div> *@
