@@ -13,10 +13,12 @@ namespace BLL
         {
             services.ConfigureDal(config);
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddScoped<CalendarService>();
+            services.AddScoped<ICalendarService, CalendarService>();
             services.AddScoped<IMessagesService, MessagesService>();
             services.AddScoped<IUserDataService, UserDataService>();
-            
+            services.AddScoped<IGroupService, GroupService>();
+            services.AddScoped<IProjectService, ProjectService>();
+
             return services;
         }
     }

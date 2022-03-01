@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,9 +11,9 @@ namespace BLL.Services
 {
     public class MessagesService : IMessagesService
     {
+        private readonly IMapper _mapper;
         private readonly IMessagesRepository _messagesRepository;
         private readonly IUserRepository _userRepository;
-        private readonly IMapper _mapper;
 
         public MessagesService(IMessagesRepository messagesRepository,
             IUserRepository userRepository,
@@ -40,12 +39,20 @@ namespace BLL.Services
 
         public async Task<ICollection<MessageDTO>> GetConversationBetween(object userA, object userB)
         {
-            var conversation = await _messagesRepository
-                .GetBySelector(e => e.Sender.Equals(userA) && e.Recipient.Equals(userB)
-                                    || e.Sender.Equals(userB) && e.Recipient.Equals(userA));
-            return await Task.Run(() => conversation?
-                .Select(e => _mapper.Map<MessageDTO>(e))
-                .ToList());
+            try
+            {
+                var conversation = await _messagesRepository
+                    .GetBySelector(e => e.Sender.Equals(userA) && e.Recipient.Equals(userB)
+                                        || e.Sender.Equals(userB) && e.Recipient.Equals(userA));
+                return await Task.Run(() => conversation?
+                    .Select(e => _mapper.Map<MessageDTO>(e))
+                    .ToList());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<MessageDTO>();
+            }
         }
 
         public async Task SendMessage(object recipient, object sender, string message)
@@ -60,6 +67,5 @@ namespace BLL.Services
                     Sended = DateTime.Now
                 });
         }
-        
     }
 }

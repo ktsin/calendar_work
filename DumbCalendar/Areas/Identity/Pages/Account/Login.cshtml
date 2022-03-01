@@ -5,64 +5,84 @@
     ViewData["Title"] = "Log in";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
-    <div class="col-md-4">
-        <section>
-            <form id="account" method="post">
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-floating">
-                    <label asp-for="Input.Email"></label>
-                    <input asp-for="Input.Email" class="form-control"/>
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                <div class="form-floating">
-                    <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control"/>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label asp-for="Input.RememberMe">
-                            <input asp-for="Input.RememberMe"/>
-                            @Html.DisplayNameFor(m => m.Input.RememberMe)
-                        </label>
+<div class="row d-flex justify-content-center mb-4">
+    <div class="card p-0">
+        <h3 class="card-header">
+            Login
+        </h3>
+        <div class="card-body">
+            <section>
+                <form id="account" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-floating">
+                        <label asp-for="Input.Email"></label>
+                        <input asp-for="Input.Email" class="form-control"/>
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Log in</button>
-                </div>
-                <div class="form-group">
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                    </p>
-                    <p>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                    </p>
-                </div>
-            </form>
-        </section>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>Use your account in others services:</h4>
-            <hr/>
-            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                <div>
-                    <p>
+                    <div class="form-floating">
+                        <label asp-for="Input.Password"></label>
+                        <input asp-for="Input.Password" class="form-control"/>
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group p-1">
+                        <div class="checkbox">
+                            <label asp-for="Input.RememberMe">
+                                <input asp-for="Input.RememberMe"/>
+                                @Html.DisplayNameFor(m => m.Input.RememberMe)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group p-1">
+                        <button type="submit" class="btn btn-primary w-100">Log in</button>
+                    </div>
+                    <div class="form-group p-1 d-flex">
+                        <a id="forgot-password" asp-page="./ForgotPassword" class="p-1 w-50">
+                            <button class="btn btn-danger w-100">
+                                Forgot your password?
+                            </button>
+                        </a>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="p-1 w-50">
+                            <button class="btn btn-success w-100">
+                                Register!
+                            </button>
+                        </a>
+                    </div>
+                </form>
+            </section>
+        </div>
+        <div class="card-footer">
+            <div class="d-inline-flex justify-content-center align-middle" style="display: inline !important;">
+                <span class="align-middle">Login via:</span>
+                <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal p-1 d-inline-flex align-middle">
+                    <div class="btn-group w-100">
                         @foreach (var provider in Model.ExternalLogins)
                         {
-                            <button type="submit" class="btn btn-outline-success" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                            <button type="submit" class="btn btn-outline-success p-1" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
                         }
-                    </p>
-                </div>
-            </form>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-        </section>
     </div>
+    @* <div class="col-md-6 col-md-offset-2"> *@
+    @*     <section> *@
+    @*         <h4>Use your account in others services:</h4> *@
+    @*         <hr/> *@
+    @*         <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal"> *@
+    @*             <div> *@
+    @*                 <p> *@
+    @*                     @foreach (var provider in Model.ExternalLogins) *@
+    @*                     { *@
+    @*                         <button type="submit" class="btn btn-outline-success" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button> *@
+    @*                     } *@
+    @*                 </p> *@
+    @*             </div> *@
+    @*         </form> *@
+    @* *@
+    @*     </section> *@
+    @* </div> *@
 </div>
 
 @section Scripts {

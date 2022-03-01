@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BLL.DTO
@@ -8,20 +9,19 @@ namespace BLL.DTO
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        
-        public int ProjectId { get; set; }
-        
-        public ICollection<UserDTO> Participants { get; set; }
-        
-        public string TaskName { get; set; }
-        
-        public ICollection<TagDTO> Tags { get; set; }
-        
-        public TaskPriority Priority { get; set; }
-        
-        public DateTime TaskStart { get; set; }
-        
-        public DateTime TaskEnd { get; set; }
-        
+
+        [Display(Name = "Project:")] public int ProjectId { get; set; }
+
+        [Display(Name = "Participants:")] public ICollection<UserDTO> Participants { get; set; }
+
+        [Display(Name = "Task name:")] public string TaskName { get; set; }
+
+        [Display(Name = "Tags:")] public ICollection<TagDTO> Tags { get; set; }
+
+        [Display(Name = "Task priority:")] public TaskPriority Priority { get; set; }
+
+        [Display(Name = "Task start:")] public DateTime TaskStart { get; set; }
+
+        [Display(Name = "End of task:")] public DateTime TaskEnd { get; set; }
     }
 }

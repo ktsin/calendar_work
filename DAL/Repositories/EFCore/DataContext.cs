@@ -8,6 +8,7 @@ namespace DAL.Repositories.EFCore
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
             Database.EnsureCreated();
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         public DbSet<CalendarEvent> CalendarEvents { get; set; }
