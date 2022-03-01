@@ -1,0 +1,58 @@
+﻿@model BLL.Calendar.CalendarDay
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<h2>Detailed day view: @(Model.Day.ToString("D"))</h2>
+
+<table class="table table-bordered">
+    <tbody>
+    @for (int i = 0; i < 24; i++)
+    {
+        <tr>
+            <td>
+                @(i.ToString("D2")):00
+            </td>
+            <td>
+                @{
+                    var i1 = i;
+                    var events = Model.CalendarEvents
+                        .Where(e => e.EventDate.Hour <= i1
+                                    && e.Duration.Hours + e.EventDate.Hour >= i1 + 1);
+                    @foreach (var e in events)
+                    {
+                        <div>
+                            @(e.Comment) : @(e.EventDate) -> @(e.EventDate + e.Duration)
+                            @foreach (var tag in e.Tags)
+                            {
+                                <span class="badge p-1 bg-info">@(tag?.Name)</span>
+                            }
+                        </div>
+                        <br>
+                    }
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div class="row p-1 w-100">
+    <div class="card w-100">
+        <h3 class="card-header">
+            Your project tasks:
+        </h3>
+        <ul class="list-group list-group-flush">
+            @foreach (var projectTask in Model.ProjectTasks)
+            {
+                <li class="list-group-item">
+                    @(projectTask.TaskName) [@(projectTask.TaskStart.ToString("d"));@(projectTask.TaskStart.ToString("d"))]
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+

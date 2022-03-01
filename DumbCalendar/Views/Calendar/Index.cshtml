@@ -1,0 +1,150 @@
+﻿@model BLL.Calendar.Calendar
+
+@{
+    ViewBag.Title = "Calendar";
+    Layout = "_Layout";
+}
+
+<div class="m-2">
+    <h2>Your calendar: @(Model?.Month.ToString("Y"))</h2>&nbsp;
+    <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Панель инструментов с группами кнопок">
+        <div class="btn-group me-2" role="group">
+            <a asp-controller="Calendar" asp-action="IndexSpecified" asp-route-month="@(Model.Month.AddMonths(-1))">
+                <button class="btn btn-outline-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Previous month">
+                    <
+                </button>
+            </a>
+            <a asp-controller="Calendar" asp-action="IndexSpecified" asp-route-month="@(Model.Month.AddMonths(1))">
+                <button class="btn btn-outline-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Next month">
+                    >
+                </button>
+            </a>
+        </div>
+        <div class="btn-group me-2" role="group">
+            <a asp-controller="Calendar" asp-action="AddCalendarEvent">
+                <button type="button" class="btn btn-outline-success" data-bs-toggle="tooltip"
+                        data-bs-placement="bottom" title="Add new schedule element">
+                    +
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row align-items-md-stretch">
+    <div class="col-md-4">
+        <div class="h-100 card">
+            <h4 class="card-header">Your project tasks:</h4>
+            <ul class="list-group list-group-flush">
+
+                @{
+                    System.Diagnostics.Debug.Assert(Model?.CalendarDays != null, "Model?.CalendarDays != null");
+                }
+                @foreach (var day in Model?.CalendarDays)
+                {
+                    if (day?.ProjectTasks != null)
+                    {
+                        foreach (var projectTask in day.ProjectTasks)
+                        {
+                            <li class="list-group-item">
+
+                            </li>
+                        }
+                    }
+                }
+
+            </ul>
+            <h4 class="card-header">Your own schedule:</h4>
+            <ul class="list-group list-group-flush">
+                @foreach (var day in Model?.CalendarDays)
+                {
+                    if (day?.CalendarEvents != null)
+                    {
+                        foreach (var calendarEvent in day.CalendarEvents)
+                        {
+                            <li class="list-group-item">
+                                @(calendarEvent.Comment) : @(calendarEvent.EventDate) : @(calendarEvent.Duration)
+                            </li>
+                        }
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="h-100 p-5 bg-light border rounded-3">
+
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>
+                        Moday
+                    </th>
+                    <th>
+                        Tuesday
+                    </th>
+                    <th>
+                        Wednesday
+                    </th>
+                    <th>
+                        Thursday
+                    </th>
+                    <th>
+                        Friday
+                    </th>
+                    <th>
+                        Saturday
+                    </th>
+                    <th>
+                        Sunday
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                @{
+                    for (int i = 0; i <= Math.Round((double) (DateTime.DaysInMonth(Model.Month.Year, Model.Month.Month) / 7)
+                        , MidpointRounding.ToPositiveInfinity); i++)
+                    {
+                        <tr>
+                            @{
+                                var shift = ((int) (Model.Month.DayOfWeek) - 1 + 7) % 7;
+                                if (i == 0)
+                                {
+                                    for (var j = 0; j < shift; j++)
+                                    {
+                                        <td>
+                                            &nbsp;
+                                        </td>
+                                    }
+                                    for (var j = shift; j < 7; j++)
+                                    {
+                                        <td>
+                                            <a asp-controller="Calendar" asp-action="DayDetailed"
+                                               asp-route-day="@(Model.Month.Date.AddDays(j - shift))">
+                                                @(j - shift + 1)
+                                            </a>
+                                        </td>
+                                    }
+                                }
+                                else
+                                {
+                                    for (var j = 0; j < 7 && (i * 7 + j + shift - 1)
+                                                    <= DateTime.DaysInMonth(Model.Month.Year, Model.Month.Month); j++)
+                                    {
+                                        <td>
+                                            <a asp-controller="Calendar" asp-action="DayDetailed"
+                                               asp-route-day="@(Model.Month.Date.AddDays(i * 7 + j + shift - 2))">
+                                                @(i * 7 + j + shift - 1)
+                                            </a>
+                                        </td>
+                                    }
+                                }
+                            }
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
