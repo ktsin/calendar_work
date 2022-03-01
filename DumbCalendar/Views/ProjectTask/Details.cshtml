@@ -1,0 +1,63 @@
+﻿@model BLL.DTO.ProjectTaskDTO
+
+@{
+    ViewBag.Title = "Task details";
+    Layout = "_Layout";
+}
+
+<div class="d-flex justify-content-center mb-6">
+    <div class="card">
+        <h3 class="card-header">@(Model?.TaskName)</h3>
+        <div class="card-body">
+            <div class="alert-info">
+                Duration: @(Model.TaskStart.ToString("dd/MM/yyyy")) - @(Model.TaskEnd.ToString("dd/MM/yyyy"))
+            </div>
+            <h5>
+                Participants:
+            </h5>
+            <ul class="list-group list-group-flush">
+                @if (Model?.Participants != null)
+                {
+                    @foreach (var e in Model.Participants)
+                    {
+                        <li class="list-group-item">
+                            @(e?.FullName)
+                        </li>
+                    }
+                }
+                <li class="list-group-item">
+                    <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                       onclick="loadModal('/ProjectTask/AddUserToTask/@(Model.Id)')">
+                        Add user to task
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="staticBackdrop">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="modalLoading" style="display: none;">
+                <img src="~/img/loading.gif" height="100%" alt="loading_img">
+            </div>
+            <div class="modal-body p-0" id="modalBody">
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" defer>
+    function loadModal(url){
+        fetch(url)
+          .then((response) => {
+              return response.text();
+          })
+          .then((result) => {
+              // var myModal = new bootstrap.Modal(document.getElementById('modal'), {});
+              // myModal.toggle();
+              document.getElementById('modalBody').innerHTML = result;
+          });
+    }
+    </script>
