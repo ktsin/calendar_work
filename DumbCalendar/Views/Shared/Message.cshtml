@@ -1,0 +1,22 @@
+﻿@model MessageViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<div class="d-flex justify-content-center mb-4">
+    <div class="card">
+        <h3 class="card-header">@(Model?.Caption)</h3>
+        <p class="card-text">
+            @(Model?.Message)
+        </p>
+        <div class="card-footer">
+            <a class="w-100 p-1s" href="@(Model?.ReturnUrl)">
+                <button class="btn btn-success w-100">
+                    Return back...
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
