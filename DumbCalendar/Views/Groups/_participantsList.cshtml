@@ -1,0 +1,28 @@
+﻿@using DumbCalendar.Data
+@model ICollection<BLL.DTO.UserDTO>
+@inject ApplicationDbContext _context;
+
+<div class="row p-0 m-0 w-100">
+    @if (Model is {Count: > 0 })
+    {
+        <ul class="list-group list-group-flush">
+            @foreach (var e in Model)
+            {
+                <li class="list-group-item d-inline-flex justify-content-between">
+                    <div>
+                        @(e?.FullName)(@((await _context.Users.FindAsync(e?.Id))?.Email)
+                    </div>
+                    <div>
+
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <h3>
+            Here is no participants!
+        </h3>
+    }
+</div>

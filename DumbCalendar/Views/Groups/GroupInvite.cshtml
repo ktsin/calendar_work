@@ -1,0 +1,38 @@
+﻿@using BLL.Services
+@using DumbCalendar.Data
+@model GroupInviteModel
+@inject IUserDataService _userData;
+@inject ApplicationDbContext _userManager;
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<div class="row h-100 w-100">
+    <div class="card rounded border shadow">
+        <h4 class="card-title">You have recived invite to:</h4>
+        <div class="card-body">
+            <p class="card-text">
+                Group: @(Model?.Group?.CommandName)
+                <hr/>
+                Group owner: @((await _userManager.Users.FindAsync(Model?.UserId))?.Email)
+            </p>
+        </div>
+        <div class="card-footer p-1 justify-content-center">
+            <div class="btn-group w-75">
+                <form method="post" asp-action="GroupInvite">
+                    <input type="hidden" id="groupId" name="groupId" value="@(Model.Group?.Id)"/>
+                    <input type="hidden" id="userId" name="userId" value="@(Model.UserId)"/>
+                    <button type="submit" class="btn btn-success">
+                        Accept invite
+                    </button>
+                    <button class="btn btn-danger">
+                        Decline invite
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

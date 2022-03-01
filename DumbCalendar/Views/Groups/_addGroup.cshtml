@@ -1,0 +1,24 @@
+@using Microsoft.AspNetCore.Identity
+@model BLL.DTO.GroupDTO
+@inject UserManager<IdentityUser> _userManager
+
+<div class="row w-100 p-2">
+    <div class="col w-100">
+        <form method="post" data-ajax="true"
+              data-ajax-method="post"
+              data-ajax-url="/Groups/AddGroup"
+              data-ajax-update="#modalBody"
+              data-ajax-loading="#modalLoading">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CommandOwner" value="@(_userManager.GetUserId(User))"/>
+            <div class="form-group p-1 w-100">
+                <label asp-for="CommandName" class="control-label"></label>
+                <input asp-for="CommandName" class="form-control" required/>
+                <span asp-validation-for="CommandName" class="text-danger"></span>
+            </div>
+            <div class="form-group p-1 w-100">
+                <input type="submit" value="Create" class="btn btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
